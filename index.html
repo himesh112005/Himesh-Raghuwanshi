@@ -396,6 +396,38 @@
             transform: scale(1.2);
         }
 
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 255, 136, 0.2);
+            border: none;
+            color: white;
+            font-size: 24px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .carousel-nav:hover {
+            background: rgba(0, 255, 136, 0.4);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-nav.prev {
+            left: 20px;
+        }
+
+        .carousel-nav.next {
+            right: 20px;
+        }
+
         /* Testimonials */
         .testimonials {
             padding: 100px 50px;
@@ -467,6 +499,30 @@
             outline: none;
             border-color: #00ff88;
             box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .form-group input[style*="border-color: #ff4444"],
+        .form-group textarea[style*="border-color: #ff4444"] {
+            border-color: #ff4444 !important;
+            box-shadow: 0 0 20px rgba(255, 68, 68, 0.3);
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        @keyframes buttonPop {
+            0% { transform: scale(0.95); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .form-group textarea {
@@ -572,6 +628,47 @@
         .loaded .loader {
             opacity: 0;
             pointer-events: none;
+        }
+
+        /* Custom Alert Styles */
+        .custom-alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            max-width: 400px;
+            z-index: 10000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .custom-alert.success {
+            background: rgba(0, 255, 136, 0.9);
+            border-left: 5px solid #00ff88;
+        }
+
+        .custom-alert.error {
+            background: rgba(255, 68, 68, 0.9);
+            border-left: 5px solid #ff4444;
+        }
+
+        .custom-alert.show {
+            transform: translateX(0);
+        }
+
+        .custom-alert .alert-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .custom-alert .alert-message {
+            font-size: 14px;
+            line-height: 1.5;
         }
     </style>
 </head>
@@ -840,6 +937,7 @@
         let currentSlide = 0;
         const slides = document.querySelectorAll('.carousel-slide');
         const dots = document.querySelectorAll('.carousel-dot');
+        let autoSlideInterval;
 
         function goToSlide(slideIndex) {
             currentSlide = slideIndex;
@@ -851,11 +949,46 @@
             });
         }
 
-        // Auto-advance carousel
-        setInterval(() => {
+        function nextSlide() {
             currentSlide = (currentSlide + 1) % slides.length;
             goToSlide(currentSlide);
-        }, 4000);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            goToSlide(currentSlide);
+        }
+
+        // Add navigation buttons
+        const carouselContainer = document.querySelector('.carousel-container');
+        const prevButton = document.createElement('button');
+        prevButton.className = 'carousel-nav prev';
+        prevButton.innerHTML = '❮';
+        const nextButton = document.createElement('button');
+        nextButton.className = 'carousel-nav next';
+        nextButton.innerHTML = '❯';
+        carouselContainer.appendChild(prevButton);
+        carouselContainer.appendChild(nextButton);
+
+        // Add event listeners for manual navigation
+        prevButton.addEventListener('click', () => {
+            clearInterval(autoSlideInterval);
+            prevSlide();
+            startAutoSlide();
+        });
+
+        nextButton.addEventListener('click', () => {
+            clearInterval(autoSlideInterval);
+            nextSlide();
+            startAutoSlide();
+        });
+
+        // Auto-advance carousel
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(nextSlide, 4000);
+        }
+
+        startAutoSlide();
 
         // Animate elements on scroll
         const observerOptions = {
@@ -925,28 +1058,115 @@
             });
         });
 
-        // Form submission
-        document.querySelector('.contact-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = this.querySelector('input[type="text"]').value;
-            const email = this.querySelector('input[type="email"]').value;
-            const message = this.querySelector('textarea').value;
-            
-            if (!name || !email || !message) {
-                alert('Please fill in all fields before submitting.');
-                return;
-            }
+        document.querySelector('.contact-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const nameInput = this.querySelector('input[type="text"]');
+    const emailInput = this.querySelector('input[type="email"]');
+    const messageInput = this.querySelector('textarea');
+    const submitButton = this.querySelector('button[type="submit"]');
 
-            // Email validation
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(email)) {
-                alert('Please enter a valid email address.');
-                return;
-            }
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const message = messageInput.value.trim();
 
-            alert(`Thank you for your message, ${name}!\n\nI will get back to you at ${email} soon.\n\nYour message:\n${message}`);
-            this.reset();
+    // Reset previous error styles
+    [nameInput, emailInput, messageInput].forEach(input => {
+        input.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+    });
+
+    // Validation
+    if (!name) {
+        nameInput.style.borderColor = '#ff4444';
+        showCustomAlert('error', '❌ Validation Error', 'Please enter your name');
+        nameInput.focus();
+        return;
+    }
+
+    if (!email) {
+        emailInput.style.borderColor = '#ff4444';
+        showCustomAlert('error', '❌ Validation Error', 'Please enter your email address');
+        emailInput.focus();
+        return;
+    }
+
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(email)) {
+        emailInput.style.borderColor = '#ff4444';
+        showCustomAlert('error', '❌ Invalid Email', 'Please enter a valid email address<br>Example: name@example.com');
+        emailInput.focus();
+        return;
+    }
+
+    if (!message) {
+        messageInput.style.borderColor = '#ff4444';
+        showCustomAlert('error', '❌ Validation Error', 'Please enter your message');
+        messageInput.focus();
+        return;
+    }
+
+    if (message.length < 10) {
+        messageInput.style.borderColor = '#ff4444';
+        showCustomAlert('error', '❌ Validation Error', 'Please enter a message with at least 10 characters');
+        messageInput.focus();
+        return;
+    }
+
+    // Submit message
+    submitButton.disabled = true;
+    submitButton.innerHTML = '<span style="display: inline-block; animation: spin 1s linear infinite;">⌛</span> Sending...';
+    submitButton.style.opacity = '0.7';
+
+    try {
+        const response = await fetch('http://localhost:3000/api/contact', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, email, message })
         });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            showCustomAlert(
+                'success',
+                '✅ Message Sent Successfully!',
+                `Thank you for your message, ${name}! 🎉<br>
+                A confirmation email has been sent to ${email}.<br>
+                I will get back to you soon!`
+            );
+
+            this.reset();
+            [nameInput, emailInput, messageInput].forEach(input => {
+                input.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+            });
+        } else {
+            throw new Error(data.error || 'Failed to send message');
+        }
+    } catch (error) {
+        if (error.name === 'TypeError' && error.message.includes('JSON')) {
+            showCustomAlert(
+                'error',
+                '❌ Server Error',
+                'Unable to connect to the server. Please check if the server is running.'
+            );
+        } else {
+            showCustomAlert(
+                'error',
+                '❌ Error',
+                error.message || 'Sorry, there was an error sending your message. Please try again later.'
+            );
+        }
+        console.error('Error:', error);
+    } finally {
+        submitButton.disabled = false;
+        submitButton.innerHTML = 'Send Message';
+        submitButton.style.opacity = '1';
+        submitButton.style.animation = 'none';
+        submitButton.offsetHeight;
+        submitButton.style.animation = 'buttonPop 0.3s ease';
+    }
+});
 
         // Add 3D tilt effect to cards
         document.querySelectorAll('.project-card, .stat-card, .testimonial-card').forEach(card => {
@@ -1187,4 +1407,3 @@
     </script>
 </body>
 </html>
-
