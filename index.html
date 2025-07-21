@@ -145,17 +145,40 @@
             opacity: 0.9;
         }
 
-        .cta-button {
+        /* Button container styles */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .cta-button, .resume-button {
             padding: 15px 40px;
-            background: linear-gradient(45deg, #00ff88, #0066ff);
+            min-width: 200px;  /* Set fixed minimum width for both buttons */
+            font-size: 18px;
             border: none;
             border-radius: 50px;
             color: white;
-            font-size: 18px;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            text-align: center;
+            display: inline-flex;  /* Use flexbox for better content alignment */
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #00ff88, #0066ff);
+        }
+
+        .resume-button {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            margin-left: 0;  /* Remove margin since we're using gap in container */
         }
 
         .cta-button:hover {
@@ -179,6 +202,34 @@
         .cta-button:hover::before {
             width: 300px;
             height: 300px;
+        }
+
+        /* Resume Button Styles */
+        .resume-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.6);
+        }
+
+        .resume-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: all 0.6s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .resume-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .resume-button i {
+            margin-right: 8px;
         }
 
         /* Floating particles */
@@ -622,6 +673,15 @@
             .nav-links {
                 display: none;
             }
+
+            .button-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .resume-button {
+                margin-left: 0;
+            }
         }
 
         /* Hide loader after page loads */
@@ -701,9 +761,16 @@
         <div class="hero-content">
             <h1>Himesh Raghuwanshi</h1>
             <p>AI & ML Engineer | Full Stack Developer</p>
-            <button class="cta-button ripple" onclick="scrollToSection('about')">
-                Explore My Work
-            </button>
+            <div class="button-container">
+                <button class="cta-button ripple" onclick="scrollToSection('about')">
+                    Explore My Work
+                </button>
+                <a href="https://drive.google.com/file/d/1MZD93NkMF5mRtWPM2f4F4i5FJj7_tmf-/view?usp=sharing" 
+                   target="_blank" 
+                   class="resume-button ripple">
+                    <i>📄</i>View Resume
+                </a>
+            </div>
         </div>
     </section>
 
@@ -1405,5 +1472,7 @@
         console.log('🎯 AI & ML Engineer | Full Stack Developer');
         console.log('📧 Ready to collaborate on innovative projects!');
     </script>
+</body>
+</html>
 </body>
 </html>
