@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Himesh Raghuwanshi - AI & ML Engineer</title>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
@@ -518,52 +518,6 @@
             color: #00ff88;
         }
 
-        /* Contact Section */
-        .contact {
-            padding: 100px 50px;
-            background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
-        }
-
-        .contact-form {
-            max-width: 600px;
-            margin: 0 auto 50px;
-        }
-
-        .form-group {
-            margin-bottom: 30px;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #00ff88;
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
-        }
-
-        .form-group input[style*="border-color: #ff4444"],
-        .form-group textarea[style*="border-color: #ff4444"] {
-            border-color: #ff4444 !important;
-            box-shadow: 0 0 20px rgba(255, 68, 68, 0.3);
-            animation: shake 0.5s ease-in-out;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
 
         @keyframes buttonPop {
             0% { transform: scale(0.95); }
@@ -682,6 +636,14 @@
             .resume-button {
                 margin-left: 0;
             }
+
+            .spotlight-logo {
+                font-size: 2.5rem;
+            }
+
+            .feature-card {
+                padding: 20px;
+            }
         }
 
         /* Hide loader after page loads */
@@ -729,6 +691,154 @@
         .custom-alert .alert-message {
             font-size: 14px;
             line-height: 1.5;
+        }
+
+        /* Spotlight Section */
+        .spotlight {
+            padding: 100px 50px;
+            background: linear-gradient(135deg, #1a1a2e, #0a0a0a);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .spotlight::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 255, 136, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .spotlight-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .spotlight-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .spotlight-logo {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #00ff88, #0066ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        .spotlight-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .spotlight-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(0, 255, 136, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #00ff88, #0066ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #00ff88;
+        }
+
+        .feature-description {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        .spotlight-achievements {
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(0, 255, 136, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        .achievement-title {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #00ff88;
+            margin-bottom: 30px;
+        }
+
+        .achievements-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .achievement-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .achievement-item:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .achievement-icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px rgba(0, 255, 136, 0.5); }
+            50% { text-shadow: 0 0 40px rgba(0, 255, 136, 0.8); }
+        }
+
+        @media (max-width: 768px) {
+            .spotlight {
+                padding: 50px 20px;
+            }
+
+            .spotlight-logo {
+                font-size: 2.5rem;
+            }
+
+            .feature-card {
+                padding: 20px;
+            }
         }
     </style>
 </head>
@@ -910,27 +1020,221 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <div class="contact-form">
-                <div class="form-group">
-                    <input type="text" placeholder="Your Name" required>
+    <!-- Project Spotlights Title -->
+    <div style="text-align: center; padding: 100px 50px 50px 50px; background: linear-gradient(135deg, #0a0a0a, #1a1a2e);">
+        <h1 class="section-title" style="font-size: 4rem; margin-bottom: 0;">My Latest Projects</h1>
+        <p style="color: rgba(255, 255, 255, 0.8); margin-top: 20px; font-size: 1.2rem;">
+            Innovative solutions powered by AI & Machine Learning
+        </p>
+    </div>
+
+    <!-- Spotlight Section -->
+    <section class="spotlight">
+        <div class="spotlight-container">
+            <div class="spotlight-header">
+                <h2 class="spotlight-logo">Agro AI</h2>
+                <p class="spotlight-subtitle">An AI-powered smart farming platform revolutionizing agricultural decision-making, market connectivity, and resource accessibility — all from your smartphone.</p>
+            </div>
+
+            <div class="spotlight-features">
+                <div class="feature-card">
+                    <div class="feature-icon">📸</div>
+                    <h3 class="feature-title">Smart Crop Monitoring</h3>
+                    <p class="feature-description">Detect leaf diseases and assess crop health using just your phone camera — no expensive equipment needed.</p>
                 </div>
-                <div class="form-group">
-                    <input type="email" placeholder="Your Email" required>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3 class="feature-title">AI Recommendations</h3>
+                    <p class="feature-description">Get real-time guidance on fertilizers, watering schedules, and disease treatments powered by AI.</p>
                 </div>
-                <div class="form-group">
-                    <textarea placeholder="Your Message" required></textarea>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🌾</div>
+                    <h3 class="feature-title">Farmer Marketplace</h3>
+                    <p class="feature-description">Direct platform for buying farming supplies and selling crops to wholesalers and companies.</p>
                 </div>
-                <button class="cta-button ripple" type="submit">Send Message</button>
+
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3 class="feature-title">Farmer Community</h3>
+                    <p class="feature-description">Connect with fellow farmers for support, Q&A, and knowledge sharing.</p>
+                </div>
+            </div>
+
+            <div class="spotlight-achievements">
+                <h3 class="achievement-title">Achievements & Recognition</h3>
+                <ul class="achievements-list">
+                    <li class="achievement-item">
+                        <span class="achievement-icon">🏆</span>
+                        <span>Top 30 at Innovent 2025, NMIMS Shirpur — Solo finalist among team projects</span>
+                    </li>
+                    <li class="achievement-item">
+                        <span class="achievement-icon">🥈</span>
+                        <span>2nd Prize at Bright Brain institutional project showcase</span>
+                    </li>
+                    <li class="achievement-item">
+                        <span class="achievement-icon">💡</span>
+                        <span>Selected for long-term development with mentorship from seniors and faculty</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- MindZen Spotlight Section -->
+    <section class="spotlight" style="background: linear-gradient(135deg, #0a0a0a, #1a1a2e);">
+        <div class="spotlight-container">
+            <div class="spotlight-header">
+                <h2 class="spotlight-logo" style="
+                    background: linear-gradient(45deg, #9F2B68, #800080, #4B0082);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    text-shadow: 0 0 20px rgba(159, 43, 104, 0.5);
+                    font-size: 4rem;
+                    letter-spacing: 2px;
+                ">MindZen</h2>
+                <p class="spotlight-subtitle">An AI-powered mental and physical health monitoring platform that works through your smartphone camera — no additional hardware needed.</p>
+            </div>
+
+            <div class="spotlight-features">
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3 class="feature-title">Smart Health Detection</h3>
+                    <p class="feature-description">Early detection of stress, anxiety, heart issues, and fatigue using advanced facial analysis and vital monitoring.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Real-time Analysis</h3>
+                    <p class="feature-description">Continuous monitoring of micro-expressions, pupil dilation, and vital signs through your device's camera.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3 class="feature-title">Privacy-First Design</h3>
+                    <p class="feature-description">Secure, on-device processing with privacy-focused data handling for complete user confidentiality.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🧘‍♂️</div>
+                    <h3 class="feature-title">Smart Wellness Guide</h3>
+                    <p class="feature-description">Personalized recommendations for breaks, meditation, hydration, and professional help when needed.</p>
+                </div>
+            </div>
+
+            <div class="spotlight-features" style="margin-top: 30px;">
+                <div class="feature-card" style="background: rgba(138, 43, 226, 0.05);">
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">Zero Hardware Dependencies</h3>
+                    <p class="feature-description">Works entirely through your smartphone - no smartwatches or additional devices required.</p>
+                </div>
+
+                <div class="feature-card" style="background: rgba(138, 43, 226, 0.05);">
+                    <div class="feature-icon">📈</div>
+                    <h3 class="feature-title">Comprehensive Dashboard</h3>
+                    <p class="feature-description">Track mood patterns, focus levels, and heart data through an intuitive interface.</p>
+                </div>
+            </div>
+
+            <div class="spotlight-achievements" style="border-color: rgba(138, 43, 226, 0.2);">
+                <h3 class="achievement-title">Technical Highlights</h3>
+                <ul class="achievements-list">
+                    <li class="achievement-item" style="background: rgba(138, 43, 226, 0.05);">
+                        <span class="achievement-icon">🎯</span>
+                        <span>Background monitoring while users work or browse</span>
+                    </li>
+                    <li class="achievement-item" style="background: rgba(138, 43, 226, 0.05);">
+                        <span class="achievement-icon">🔄</span>
+                        <span>Real-time facial analysis and vital sign monitoring</span>
+                    </li>
+                    <li class="achievement-item" style="background: rgba(138, 43, 226, 0.05);">
+                        <span class="achievement-icon">🌐</span>
+                        <span>Deployed and accessible at <a href="https://v0-mind-zen-features.vercel.app/" target="_blank" style="color: #8A2BE2;">v0-mind-zen-features.vercel.app</a></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Jarvis AI Spotlight Section -->
+    <section class="spotlight" style="background: linear-gradient(135deg, #1a1a2e, #0a0a0a);">
+        <div class="spotlight-container">
+            <div class="spotlight-header">
+                <h2 class="spotlight-logo" style="
+                    background: linear-gradient(45deg, #00C9FF, #92FE9D);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    text-shadow: 0 0 20px rgba(0, 201, 255, 0.5);
+                    font-size: 4rem;
+                    letter-spacing: 2px;
+                ">Jarvis AI</h2>
+                <p class="spotlight-subtitle">A lightweight, front-end focused AI assistant that makes web forms smarter and more responsive — no external APIs needed.</p>
+            </div>
+
+            <div class="spotlight-features">
+                <div class="feature-card">
+                    <div class="feature-icon">⚙️</div>
+                    <h3 class="feature-title">Smart Form Validation</h3>
+                    <p class="feature-description">Built-in validation using native JavaScript to ensure accurate form submissions without external libraries.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3 class="feature-title">Input Analysis</h3>
+                    <p class="feature-description">Intelligent field type detection and validation for emails, phone numbers, and other common inputs.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3 class="feature-title">Conversational Touch</h3>
+                    <p class="feature-description">Interactive DOM-based responses with inline error messages and animated text guidance.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3 class="feature-title">Lightweight Logic</h3>
+                    <p class="feature-description">Minimal dependencies required, making it perfect for any web project without backend complexity.</p>
+                </div>
+            </div>
+
+            <div class="spotlight-features" style="margin-top: 30px;">
+                <div class="feature-card" style="background: rgba(0, 201, 255, 0.05);">
+                    <div class="feature-icon">🧑‍💻</div>
+                    <h3 class="feature-title">Web-Friendly Design</h3>
+                    <p class="feature-description">Seamlessly integrates with any HTML/CSS/JS or React-based website architecture.</p>
+                </div>
+
+                <div class="feature-card" style="background: rgba(0, 201, 255, 0.05);">
+                    <div class="feature-icon">🔐</div>
+                    <h3 class="feature-title">Privacy-First Approach</h3>
+                    <p class="feature-description">All processing happens client-side, ensuring user data never leaves their browser.</p>
+                </div>
+            </div>
+
+            <div class="spotlight-achievements" style="border-color: rgba(0, 201, 255, 0.2);">
+                <h3 class="achievement-title">Technical Highlights</h3>
+                <ul class="achievements-list">
+                    <li class="achievement-item" style="background: rgba(0, 201, 255, 0.05);">
+                        <span class="achievement-icon">🚀</span>
+                        <span>Zero external dependencies for core functionality</span>
+                    </li>
+                    <li class="achievement-item" style="background: rgba(0, 201, 255, 0.05);">
+                        <span class="achievement-icon">⚡</span>
+                        <span>Lightweight implementation with minimal impact on page load</span>
+                    </li>
+                    <li class="achievement-item" style="background: rgba(0, 201, 255, 0.05);">
+                        <span class="achievement-icon">🎯</span>
+                        <span>Fully customizable validation rules and response messages</span>
+                    </li>
+                </ul>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
+        <h1 class="section-title">Get In Touch</h1>
         <div class="social-links">
             <a href="https://www.linkedin.com/in/himesh-raghuwanshi" target="_blank" class="social-link linkedin" title="LinkedIn">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -1117,123 +1421,53 @@
         statsObserver.observe(statsSection);
 
         // Add click event to nav links
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
-                scrollToSection(targetId);
-            });
-        });
+      
 
-        document.querySelector('.contact-form').addEventListener('submit', async function (e) {
-    e.preventDefault();
-    const nameInput = this.querySelector('input[type="text"]');
-    const emailInput = this.querySelector('input[type="email"]');
-    const messageInput = this.querySelector('textarea');
-    const submitButton = this.querySelector('button[type="submit"]');
-
-    const name = nameInput.value.trim();
-    const email = emailInput.value.trim();
-    const message = messageInput.value.trim();
-
-    // Reset previous error styles
-    [nameInput, emailInput, messageInput].forEach(input => {
-        input.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-    });
-
-    // Validation
-    if (!name) {
-        nameInput.style.borderColor = '#ff4444';
-        showCustomAlert('error', '❌ Validation Error', 'Please enter your name');
-        nameInput.focus();
-        return;
+// Add showCustomAlert function
+function showCustomAlert(type, title, message) {
+    console.log('showCustomAlert called with:', type, title, message);
+    // Remove existing alert if any
+    const existingAlert = document.querySelector('.custom-alert');
+    if (existingAlert) {
+        existingAlert.remove();
     }
 
-    if (!email) {
-        emailInput.style.borderColor = '#ff4444';
-        showCustomAlert('error', '❌ Validation Error', 'Please enter your email address');
-        emailInput.focus();
-        return;
-    }
+    // Create alert container
+    const alert = document.createElement('div');
+    alert.className = `custom-alert ${type}`;
 
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailPattern.test(email)) {
-        emailInput.style.borderColor = '#ff4444';
-        showCustomAlert('error', '❌ Invalid Email', 'Please enter a valid email address<br>Example: name@example.com');
-        emailInput.focus();
-        return;
-    }
+    // Create alert title
+    const alertTitle = document.createElement('div');
+    alertTitle.className = 'alert-title';
+    alertTitle.innerHTML = title;
 
-    if (!message) {
-        messageInput.style.borderColor = '#ff4444';
-        showCustomAlert('error', '❌ Validation Error', 'Please enter your message');
-        messageInput.focus();
-        return;
-    }
+    // Create alert message
+    const alertMessage = document.createElement('div');
+    alertMessage.className = 'alert-message';
+    alertMessage.innerHTML = message;
 
-    if (message.length < 10) {
-        messageInput.style.borderColor = '#ff4444';
-        showCustomAlert('error', '❌ Validation Error', 'Please enter a message with at least 10 characters');
-        messageInput.focus();
-        return;
-    }
+    // Append title and message to alert
+    alert.appendChild(alertTitle);
+    alert.appendChild(alertMessage);
 
-    // Submit message
-    submitButton.disabled = true;
-    submitButton.innerHTML = '<span style="display: inline-block; animation: spin 1s linear infinite;">⌛</span> Sending...';
-    submitButton.style.opacity = '0.7';
+    // Append alert to body
+    document.body.appendChild(alert);
+    console.log('Alert element appended to body:', alert);
 
-    try {
-        const response = await fetch('http://localhost:3000/api/contact', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ name, email, message })
-        });
+    // Show alert with animation
+    setTimeout(() => {
+        alert.classList.add('show');
+    }, 100);
 
-        const data = await response.json();
-
-        if (response.ok) {
-            showCustomAlert(
-                'success',
-                '✅ Message Sent Successfully!',
-                `Thank you for your message, ${name}! 🎉<br>
-                A confirmation email has been sent to ${email}.<br>
-                I will get back to you soon!`
-            );
-
-            this.reset();
-            [nameInput, emailInput, messageInput].forEach(input => {
-                input.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-            });
-        } else {
-            throw new Error(data.error || 'Failed to send message');
-        }
-    } catch (error) {
-        if (error.name === 'TypeError' && error.message.includes('JSON')) {
-            showCustomAlert(
-                'error',
-                '❌ Server Error',
-                'Unable to connect to the server. Please check if the server is running.'
-            );
-        } else {
-            showCustomAlert(
-                'error',
-                '❌ Error',
-                error.message || 'Sorry, there was an error sending your message. Please try again later.'
-            );
-        }
-        console.error('Error:', error);
-    } finally {
-        submitButton.disabled = false;
-        submitButton.innerHTML = 'Send Message';
-        submitButton.style.opacity = '1';
-        submitButton.style.animation = 'none';
-        submitButton.offsetHeight;
-        submitButton.style.animation = 'buttonPop 0.3s ease';
-    }
-});
+    // Hide alert after 4 seconds
+    setTimeout(() => {
+        alert.classList.remove('show');
+        // Remove alert from DOM after animation
+        setTimeout(() => {
+            alert.remove();
+        }, 300);
+    }, 4000);
+}
 
         // Add 3D tilt effect to cards
         document.querySelectorAll('.project-card, .stat-card, .testimonial-card').forEach(card => {
@@ -1472,7 +1706,5 @@
         console.log('🎯 AI & ML Engineer | Full Stack Developer');
         console.log('📧 Ready to collaborate on innovative projects!');
     </script>
-</body>
-</html>
 </body>
 </html>
