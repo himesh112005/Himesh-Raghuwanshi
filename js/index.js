@@ -493,3 +493,19 @@ document.querySelectorAll('button, .nav-links a').forEach(element => {
         console.log('🚀 Himesh Raghuwanshi Portfolio Loaded Successfully!');
         console.log('🎯 AI & ML Engineer | Full Stack Developer');
         console.log('📧 Ready to collaborate on innovative projects!');
+
+        function toggleMenu() {
+    const navLinks = document.querySelector('.nav-links');
+    const menuBtn = document.querySelector('.menu-btn');
+    
+    navLinks.classList.toggle('active');
+    menuBtn.classList.toggle('active');
+}
+
+function closeMenu() {
+    const navLinks = document.querySelector('.nav-links');
+    const menuBtn = document.querySelector('.menu-btn');
+    
+    navLinks.classList.remove('active');
+    menuBtn.classList.remove('active');
+}
