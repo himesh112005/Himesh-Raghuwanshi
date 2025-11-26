@@ -99,7 +99,7 @@ async function deleteMessage(id) {
 function logout() {
     if (confirm('Are you sure you want to logout?')) {
         localStorage.removeItem('adminLoggedIn');
-        window.location.href = 'index.html';
+        window.location.href = 'login.html';
     }
 }
 
@@ -107,7 +107,7 @@ function logout() {
 function checkAuth() {
     const isLoggedIn = localStorage.getItem('adminLoggedIn');
     if (!isLoggedIn) {
-        window.location.href = 'index.html';
+        window.location.href = 'login.html';
     }
 }
 

@@ -10,6 +10,13 @@ const DATA_FILE = path.join(__dirname, 'data', 'messages.json');
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Add logging to see requests in terminal
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+    next();
+});
+
 app.use(express.static(__dirname));
 
 // Ensure data directory exists
