@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+# It is created By Shri Himesh Raghuwanshi
+# All right are Reserve
+
+# you can check it on https://himesh-raghuwanshi.vercel.app/
+=======
+>>>>>>> 234a8fb
 # Portfolio Admin Dashboard
 
 ## Setup Instructions
@@ -75,3 +84,7 @@ Share the ngrok URL with your friend.
 - Use HTTPS in production
 - Don't expose to internet without proper security
 - Consider using a service like Heroku, Vercel, or Railway for hosting
+<<<<<<< HEAD
+=======
+>>>>>>> 18d64ab (Add Vercel serverless functions)
+>>>>>>> 234a8fb
