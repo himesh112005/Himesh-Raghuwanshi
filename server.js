@@ -1,120 +1,103 @@
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
-const bodyParser = require('body-parser');
 const cors = require('cors');
+const fs = require('fs').promises;
 const path = require('path');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+const DATA_FILE = path.join(__dirname, 'data', 'messages.json');
 
 // Middleware
 app.use(cors());
-app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '.'))); // Serve static files from current directory
+app.use(express.json());
+app.use(express.static(__dirname));
 
-// Database Setup
-const db = new sqlite3.Database('./portfolio.db', (err) => {
-    if (err) {
-        console.error('Error opening database:', err.message);
-    } else {
-        console.log('Connected to the SQLite database.');
-        // Create Messages Table
-        db.run(`CREATE TABLE IF NOT EXISTS messages (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            email TEXT NOT NULL,
-            message TEXT NOT NULL,
-            date TEXT NOT NULL,
-            status TEXT DEFAULT 'unread'
-        )`);
+// Ensure data directory exists
+async function ensureDataDir() {
+    const dataDir = path.join(__dirname, 'data');
+    try {
+        await fs.mkdir(dataDir, { recursive: true });
+        try {
+            await fs.access(DATA_FILE);
+        } catch {
+            await fs.writeFile(DATA_FILE, JSON.stringify([]));
+        }
+    } catch (error) {
+        console.error('Error creating data directory:', error);
+    }
+}
+
+// Get all messages
+app.get('/api/messages', async (req, res) => {
+    try {
+        const data = await fs.readFile(DATA_FILE, 'utf8');
+        res.json(JSON.parse(data));
+    } catch (error) {
+        res.status(500).json({ error: 'Error reading messages' });
     }
 });
 
-// API Routes
-
-// Submit a new message
-app.post('/api/messages', (req, res) => {
-    const { name, email, message } = req.body;
-    const date = new Date().toISOString();
-    const sql = `INSERT INTO messages (name, email, message, date) VALUES (?, ?, ?, ?)`;
-    
-    db.run(sql, [name, email, message, date], function(err) {
-        if (err) {
-            return res.status(400).json({ error: err.message });
-        }
-        res.json({ 
-            id: this.lastID,
-            name,
-            email,
-            message,
-            date,
-            status: 'unread'
-        });
-    });
-});
-
-// Get all messages
-app.get('/api/messages', (req, res) => {
-    const sql = `SELECT * FROM messages ORDER BY id DESC`;
-    db.all(sql, [], (err, rows) => {
-        if (err) {
-            return res.status(400).json({ error: err.message });
-        }
-        res.json(rows);
-    });
-});
-
-// Delete a message
-app.delete('/api/messages/:id', (req, res) => {
-    const sql = `DELETE FROM messages WHERE id = ?`;
-    db.run(sql, req.params.id, function(err) {
-        if (err) {
-            return res.status(400).json({ error: err.message });
-        }
-        res.json({ message: 'deleted', changes: this.changes });
-    });
-});
-
-// Mark message as read (Update status)
-app.put('/api/messages/:id/read', (req, res) => {
-    const sql = `UPDATE messages SET status = 'read' WHERE id = ?`;
-    db.run(sql, req.params.id, function(err) {
-        if (err) {
-            return res.status(400).json({ error: err.message });
-        }
-        res.json({ message: 'updated', changes: this.changes });
-    });
-});
-
-// Get Analytics
-app.get('/api/analytics', (req, res) => {
-    const totalMessagesQuery = `SELECT COUNT(*) as count FROM messages`;
-    const unreadMessagesQuery = `SELECT COUNT(*) as count FROM messages WHERE status = 'unread'`;
-    
-    // Get start of today in ISO format (YYYY-MM-DD)
-    const today = new Date().toISOString().split('T')[0];
-    const todayMessagesQuery = `SELECT COUNT(*) as count FROM messages WHERE date LIKE ?`;
-
-    db.get(totalMessagesQuery, [], (err, totalRow) => {
-        if (err) return res.status(400).json({ error: err.message });
+// Add new message
+app.post('/api/messages', async (req, res) => {
+    try {
+        const data = await fs.readFile(DATA_FILE, 'utf8');
+        const messages = JSON.parse(data);
         
-        db.get(unreadMessagesQuery, [], (err, unreadRow) => {
-            if (err) return res.status(400).json({ error: err.message });
-            
-            db.get(todayMessagesQuery, [`${today}%`], (err, todayRow) => {
-                if (err) return res.status(400).json({ error: err.message });
-
-                res.json({
-                    totalMessages: totalRow.count,
-                    unreadMessages: unreadRow.count,
-                    messagesToday: todayRow.count
-                });
-            });
-        });
-    });
+        const newMessage = {
+            id: Date.now(),
+            name: req.body.name,
+            email: req.body.email,
+            message: req.body.message,
+            timestamp: Date.now(),
+            read: false
+        };
+        
+        messages.push(newMessage);
+        await fs.writeFile(DATA_FILE, JSON.stringify(messages, null, 2));
+        res.json({ success: true, message: newMessage });
+    } catch (error) {
+        res.status(500).json({ error: 'Error saving message' });
+    }
 });
 
-// Start Server
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+// Mark message as read
+app.patch('/api/messages/:id/read', async (req, res) => {
+    try {
+        const data = await fs.readFile(DATA_FILE, 'utf8');
+        const messages = JSON.parse(data);
+        const index = messages.findIndex(m => m.id == req.params.id);
+        
+        if (index !== -1) {
+            messages[index].read = true;
+            await fs.writeFile(DATA_FILE, JSON.stringify(messages, null, 2));
+            res.json({ success: true });
+        } else {
+            res.status(404).json({ error: 'Message not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Error updating message' });
+    }
+});
+
+// Delete message
+app.delete('/api/messages/:id', async (req, res) => {
+    try {
+        const data = await fs.readFile(DATA_FILE, 'utf8');
+        let messages = JSON.parse(data);
+        messages = messages.filter(m => m.id != req.params.id);
+        
+        await fs.writeFile(DATA_FILE, JSON.stringify(messages, null, 2));
+        res.json({ success: true });
+    } catch (error) {
+        res.status(500).json({ error: 'Error deleting message' });
+    }
+});
+
+// Start server
+ensureDataDir().then(() => {
+    app.listen(PORT, '0.0.0.0', () => {
+        console.log(`Server running on port ${PORT}`);
+        console.log(`Local: http://localhost:${PORT}`);
+        console.log(`Network: http://<your-ip>:${PORT}`);
+    });
 });
