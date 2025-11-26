@@ -1,7 +1,7 @@
 {
   "version": 2,
   "rewrites": [
-    { "source": "/api/messages", "destination": "/api/messages" },
+    { "source": "/api/messages", "destination": "/api/messages.js" },
     { "source": "/api/messages/:id/read", "destination": "/api/messages?id=:id" },
     { "source": "/api/messages/:id", "destination": "/api/messages?id=:id" }
   ]

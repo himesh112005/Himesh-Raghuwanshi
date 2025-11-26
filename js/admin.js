@@ -1,5 +1,7 @@
-// API Configuration - automatically uses current domain
-const API_URL = '/api/messages';
+// API Configuration
+// Determine API URL: Localhost uses port 3000, Vercel uses relative path
+const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const API_BASE = isLocal ? 'http://localhost:3000' : '';
 
 // Check authentication
 if (localStorage.getItem('admin_logged_in') !== 'true') {
@@ -13,9 +15,12 @@ function logout() {
 
 // Load messages from server
 async function loadMessages() {
+    const apiUrl = `${API_BASE}/api/messages`;
+    console.log('Fetching messages from:', apiUrl);
+
     try {
-        const response = await fetch(API_URL);
-        if (!response.ok) throw new Error('Server error');
+        const response = await fetch(apiUrl);
+        if (!response.ok) throw new Error(`Server error: ${response.status}`);
         
         const messages = await response.json();
         displayMessages(messages);
@@ -24,8 +29,9 @@ async function loadMessages() {
         console.error('Error loading messages:', error);
         document.getElementById('messagesList').innerHTML = 
             `<div class="error-message">
-                Error loading messages. Please refresh the page.<br>
-                <small>If the problem persists, check your deployment logs.</small>
+                Error loading messages.<br>
+                <small>${error.message}</small><br>
+                <small>URL: ${apiUrl}</small>
             </div>`;
     }
 }
@@ -33,7 +39,7 @@ async function loadMessages() {
 function displayMessages(messages) {
     const messagesList = document.getElementById('messagesList');
     
-    if (messages.length === 0) {
+    if (!messages || messages.length === 0) {
         messagesList.innerHTML = '<div class="no-messages">No messages yet.</div>';
         return;
     }
@@ -42,8 +48,8 @@ function displayMessages(messages) {
         <div class="message-card ${msg.read ? 'read' : 'unread'}">
             <div class="message-header">
                 <div>
-                    <strong>${msg.name}</strong>
-                    <span class="message-email">${msg.email}</span>
+                    <strong>${msg.name || 'Unknown'}</strong>
+                    <span class="message-email">${msg.email || 'No email'}</span>
                 </div>
                 <span class="message-date">${new Date(msg.timestamp).toLocaleDateString()}</span>
             </div>
@@ -59,6 +65,7 @@ function displayMessages(messages) {
 }
 
 function updateStats(messages) {
+    if (!messages) return;
     const today = new Date().toDateString();
     const unread = messages.filter(m => !m.read).length;
     const messagesToday = messages.filter(m => 
@@ -72,12 +79,20 @@ function updateStats(messages) {
 
 async function markAsRead(id) {
     try {
-        const response = await fetch(`/api/messages?id=${id}`, {
-            method: 'PATCH',
+        // Vercel requires ID as query param for serverless functions
+        const url = isLocal 
+            ? `${API_BASE}/api/messages/${id}/read` 
+            : `${API_BASE}/api/messages?id=${id}`;
+            
+        const method = isLocal ? 'PATCH' : 'PATCH'; // Both use PATCH
+
+        const response = await fetch(url, {
+            method: method,
             headers: { 'Content-Type': 'application/json' }
         });
         if (response.ok) loadMessages();
     } catch (error) {
+        console.error(error);
         alert('Error updating message');
     }
 }
@@ -85,12 +100,17 @@ async function markAsRead(id) {
 async function deleteMessage(id) {
     if (confirm('Are you sure you want to delete this message?')) {
         try {
-            const response = await fetch(`/api/messages?id=${id}`, {
+            const url = isLocal 
+                ? `${API_BASE}/api/messages/${id}` 
+                : `${API_BASE}/api/messages?id=${id}`;
+
+            const response = await fetch(url, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' }
             });
             if (response.ok) loadMessages();
         } catch (error) {
+            console.error(error);
             alert('Error deleting message');
         }
     }
@@ -103,7 +123,6 @@ function logout() {
     }
 }
 
-// Check if admin is logged in
 function checkAuth() {
     const isLoggedIn = localStorage.getItem('adminLoggedIn');
     if (!isLoggedIn) {
@@ -114,6 +133,4 @@ function checkAuth() {
 // Initialize
 checkAuth();
 loadMessages();
-
-// Refresh messages every 30 seconds
 setInterval(loadMessages, 30000);
