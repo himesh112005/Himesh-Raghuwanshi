@@ -3,12 +3,28 @@
     emailjs.init("5AatC7pKD8wKcgE8I"); 
 })();
 
-// Loader
-        window.addEventListener('load', function() {
+// Loader with Progress Bar
+(function() {
+    let progress = 0;
+    const loaderBar = document.getElementById('loaderBar');
+    const loaderPercentage = document.getElementById('loaderPercentage');
+    
+    const interval = setInterval(() => {
+        // Accelerate: slow at start, faster in the middle, slow near end
+        const increment = progress < 30 ? 1 : progress < 70 ? 2 : progress < 90 ? 1 : 0.5;
+        progress = Math.min(progress + increment, 100);
+        
+        if (loaderBar) loaderBar.style.width = progress + '%';
+        if (loaderPercentage) loaderPercentage.textContent = Math.floor(progress) + '%';
+        
+        if (progress >= 100) {
+            clearInterval(interval);
             setTimeout(() => {
                 document.body.classList.add('loaded');
-            }, 2000);
-        });
+            }, 300);
+        }
+    }, 30);
+})();
 
         // Floating particles
         function createParticle() {
@@ -243,12 +259,12 @@ function showCustomAlert(type, title, message) {
         // Initialize typing effect after loader
         setTimeout(() => {
             const heroTitle = document.querySelector('.hero h1');
-            const heroSubtitle = document.querySelector('.hero p');
-            typeWriter(heroTitle, 'Himesh Raghuwanshi', 150);
+            const heroTagline = document.querySelector('.hero .hero-tagline');
+            typeWriter(heroTitle, 'Himesh Raghuwanshi', 120);
             setTimeout(() => {
-                typeWriter(heroSubtitle, 'Computer Engineer | Ai & DS expert | Full Stack Developer', 100);
-            }, 2500);
-        }, 3000);
+                typeWriter(heroTagline, 'AI/ML Developer in Progress | Data Science | Python, NLP, Deep Learning', 50);
+            }, 2200);
+        }, 2800);
 
         // Add parallax effect
         window.addEventListener('scroll', () => {
