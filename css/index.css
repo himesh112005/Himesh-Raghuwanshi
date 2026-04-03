@@ -515,20 +515,43 @@
         }
 
 
-        @keyframes buttonPop {
-            0% { transform: scale(0.95); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        .submit-btn {
+            background: linear-gradient(45deg, #00ff88, #0066ff);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 255, 136, 0.4);
         }
 
-        .form-group textarea {
-            height: 120px;
-            resize: vertical;
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loader-spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            display: inline-block;
         }
 
         /* Ripple Effect */
@@ -983,16 +1006,21 @@
         }
 
         .submit-btn {
-            width: 100%;
-            padding: 15px;
             background: linear-gradient(45deg, #00ff88, #0066ff);
-            border: none;
-            border-radius: 10px;
             color: white;
-            font-size: 1.2rem;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -1002,6 +1030,18 @@
             box-shadow: 0 10px 25px rgba(0, 255, 136, 0.4);
         }
 
-        .submit-btn:active {
-            transform: translateY(-1px);
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
         }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }

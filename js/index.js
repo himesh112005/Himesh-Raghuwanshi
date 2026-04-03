@@ -1,3 +1,8 @@
+// Initialize EmailJS (Replace 'YOUR_PUBLIC_KEY' with your actual key from EmailJS dashboard)
+(function() {
+    emailjs.init("5AatC7pKD8wKcgE8I"); 
+})();
+
 // Loader
         window.addEventListener('load', function() {
             setTimeout(() => {
@@ -453,42 +458,74 @@ document.querySelectorAll('button, .nav-links a').forEach(element => {
        
 
         // Contact Form Handling
-        function handleContactSubmit(event) {
-            event.preventDefault();
-            
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
-            
-            // Create message object
-            const newMessage = {
-                name: name,
-                email: email,
-                message: message
-            };
-            
-            // Send to backend
-            fetch('http://localhost:3000/api/messages', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(newMessage),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    showCustomAlert('error', 'Error', 'Failed to send message: ' + data.error);
-                } else {
-                    showCustomAlert('success', 'Message Sent!', 'Thank you for contacting me. I will get back to you soon.');
-                    document.getElementById('contactForm').reset();
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                showCustomAlert('error', 'Error', 'Failed to connect to server.');
-            });
+function handleContactSubmit(event) {
+    event.preventDefault();
+    
+    const submitBtn = event.target.querySelector('.submit-btn');
+    const originalBtnText = submitBtn.innerHTML;
+    
+    // Show loading state
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="loader-spinner"></span> Sending...';
+    
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+    
+    // Create message object
+    const newMessage = {
+        name: name,
+        email: email,
+        message: message
+    };
+    
+    // Determine API URL: Localhost uses port 3000, Vercel uses relative path
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const API_BASE = isLocal ? 'http://localhost:3000' : '';
+    
+    // 1. Send to Backend (for database/admin panel)
+    fetch(`${API_BASE}/api/messages`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newMessage),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            throw new Error(data.error);
         }
+        
+        // 2. Also try EmailJS (Direct Email Notification)
+        emailjs.send("service_jwljg69", "template_dw0nfy7", {
+            name: name,          // Matches {{name}} in your template
+            from_name: name,     // Matches {{from_name}} in your template
+            email: email,        // Matches {{email}} in your template
+            message: message,    // Matches {{message}} in your template
+            reply_to: email      // Optional: helpful for replying directly
+        })
+        .then(() => {
+            console.log("Email notification sent successfully!");
+        })
+        .catch(err => {
+            console.error("EmailJS Error:", err);
+        });
+
+        showCustomAlert('success', 'Message Sent!', 'Thank you for contacting me. I will get back to you soon.');
+        document.getElementById('contactForm').reset();
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        // If backend fails, we can still say success if we want to "fake" it for static setups, 
+        // but better to show a meaningful error or suggest EmailJS.
+        showCustomAlert('error', 'Submission Failed', 'Please try again later or contact me via LinkedIn.');
+    })
+    .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
+    });
+}
 
         console.log('🚀 Himesh Raghuwanshi Portfolio Loaded Successfully!');
         console.log('🎯 AI & ML Engineer | Full Stack Developer');

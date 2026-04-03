@@ -1,90 +1,64 @@
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-# It is created By Shri Himesh Raghuwanshi
-# All right are Reserve
+# Himesh Raghuwanshi Portfolio - Admin Dashboard
 
-# you can check it on https://himesh-raghuwanshi.vercel.app/
-=======
->>>>>>> 234a8fb
-# Portfolio Admin Dashboard
+Professional portfolio website with a built-in admin dashboard to manage contact messages.
 
-## Setup Instructions
+## ✨ Features
+- **Dynamic Contact Form**: Automatically connects to the local server or production API (Vercel ready).
+- **Email Notification Ready**: Pre-configured EmailJS integration (uncomment in `js/index.js` to enable).
+- **Admin Panel**: Secure dashboard to view, mark as read, and delete messages.
+- **Premium UI/UX**: Hover effects, smooth transitions, and real-time form validation.
+
+## 🚀 Setup Instructions
 
 ### 1. Install Dependencies
 ```bash
 npm install
 ```
 
-### 2. Start the Server
+### 2. Start the Server Locally
 ```bash
 npm start
 ```
+The server will run on [http://localhost:3000](http://localhost:3000).
 
-The server will run on port 3000.
+### 3. Access the Admin Dashboard
+- **URL**: [http://localhost:3000/login.html](http://localhost:3000/login.html)
+- **Default Password**: `admin123` (Change this in `login.html`)
 
-## Accessing from Another Laptop
+---
+
+## 📱 Accessing from Another Device (Local Network)
 
 ### Step 1: Find Your IP Address
+- **Windows**: Run `ipconfig` and find "IPv4 Address".
+- **Mac/Linux**: Run `ifconfig` or `ip addr`.
 
-**Windows:**
-```bash
-ipconfig
-```
-Look for "IPv4 Address" (e.g., 192.168.1.100)
+### Step 2: Access via IP
+On any device on the same Wi-Fi, open:  
+`http://YOUR_IP_ADDRESS:3000`
 
-**Mac/Linux:**
-```bash
-ifconfig
-```
+---
 
-### Step 2: Configure Firewall
+## 🌐 Production Deployment (Vercel)
 
-**Windows Firewall:**
-1. Open Windows Defender Firewall
-2. Click "Advanced settings"
-3. Click "Inbound Rules" → "New Rule"
-4. Choose "Port" → Next
-5. Enter port 3000 → Next
-6. Allow the connection → Next
-7. Apply to all profiles → Next
-8. Name it "Portfolio Server" → Finish
+1. Connect your GitHub repository to Vercel.
+2. The project is pre-configured with `vercel.json` and `api/` serverless functions.
+3. Your contact form will automatically use the production URL.
 
-### Step 3: Access from Friend's Laptop
+---
 
-On your friend's laptop, open browser and go to:
-```
-http://YOUR_IP_ADDRESS:3000/admin.html
-```
+## 📧 Enabling Email Notifications (Optional)
+To receive emails directly when someone fills the form:
+1. Go to [EmailJS](https://www.emailjs.com/) and create a free account.
+2. Get your **Service ID**, **Template ID**, and **Public Key**.
+3. Open `js/index.js` and find the `EmailJS` section in `handleContactSubmit`.
+4. Uncomment the code and paste your keys.
 
-Example: `http://192.168.1.100:3000/admin.html`
+---
 
-## For Internet Access (Not Just Local Network)
+## 🛠️ Security Notes
+- Change the default admin password in `login.html`.
+- For production, use HTTPS.
+- Use a dedicated database like Supabase or MongoDB if you have thousands of messages (current setup uses `messages.json`).
 
-### Option 1: ngrok (Easiest)
-```bash
-# Install ngrok
-npm install -g ngrok
-
-# Start ngrok
-ngrok http 3000
-```
-Share the ngrok URL with your friend.
-
-### Option 2: Port Forwarding
-1. Login to your router (usually 192.168.1.1)
-2. Find "Port Forwarding" settings
-3. Forward external port 3000 to your computer's IP:3000
-4. Share your public IP (google "what is my ip")
-5. Friend accesses: `http://YOUR_PUBLIC_IP:3000/admin.html`
-
-## Security Notes
-
-- Change the default admin authentication
-- Use HTTPS in production
-- Don't expose to internet without proper security
-- Consider using a service like Heroku, Vercel, or Railway for hosting
-<<<<<<< HEAD
-=======
->>>>>>> 18d64ab (Add Vercel serverless functions)
->>>>>>> 234a8fb
+Created by **Himesh Raghuwanshi**
