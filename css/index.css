@@ -622,7 +622,7 @@ body {
 .carousel-nav.next { right: 16px; }
 
 /* ===== Achievements & Testimonials ===== */
-.testimonials {
+.achievements {
     padding: 100px 48px;
     background: linear-gradient(180deg, #0d0d1a, var(--bg-dark));
 }
@@ -1220,7 +1220,7 @@ body {
     .about { padding: 80px 32px; }
     .stats { padding: 80px 32px; }
     .carousel { padding: 80px 32px; }
-    .testimonials { padding: 80px 32px; }
+    .achievements { padding: 80px 32px; }
     .spotlight { padding: 80px 32px; }
     .contact { padding: 80px 32px; }
     .footer { padding: 48px 32px 32px; }
@@ -1378,8 +1378,8 @@ body {
         font-size: 14px;
     }
 
-    /* Testimonials */
-    .testimonials {
+    /* Achievements */
+    .achievements {
         padding: 60px 20px;
     }
 
