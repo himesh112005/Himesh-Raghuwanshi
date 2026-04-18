@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /login.html
+Disallow: /node_modules/
+Disallow: /api/
+
+Sitemap: https://himesh-raghuwanshi.vercel.app/sitemap.xml
